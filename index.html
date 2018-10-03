@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>WebScockets 101</title>
+    <link href="./style.css" rel="stylesheet" />
+    <script src="/socket.io/socket.io.js"></script>
+
+
+</head>
+
+<body>
+    <h1>Chat App</h1>
+    <div class="main-window">
+        <div class="chatwindow">
+            <div id="output"></div>
+            <div id="feedback"></div>
+        </div>
+        <div>
+            <input type="text" placeholder="handle" id="handle"/>
+            <input type="text" placeholder="type your message" id="message"/>
+            <button id="send">Send </button>
+        </div>
+    </div>
+
+    <script>
+        var socket = io();
+        var message = document.getElementById("message");
+        var handle = document.getElementById("handle");
+        var button = document.getElementById("send");
+        var output = document.getElementById("output");
+        var feedback = document.getElementById("feedback");
+        button.addEventListener('click',function()
+        {
+             socket.emit('chat',{
+                 message:message.value,
+                 handle:handle.value
+                                 
+             });
+        });
+      
+
+
+        socket.on('chat',function(data)
+        {
+           output.innerHTML +='<p>' + data.handle   + ":" + data.message + '</p>';   
+        });
+    </script>
+
+</body>
+
+</html>
